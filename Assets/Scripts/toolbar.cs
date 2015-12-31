@@ -6,8 +6,12 @@ public class toolbar : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		GameObject[] roads = (GameObject[])Resources.LoadAll ("tile_roads");
+		Object[] roads = Resources.LoadAll ("tile_roads");
 		Debug.Log("roads: " + roads[0]);
+
+		Object[] ground = Resources.LoadAll ("tile_ground");
+		Debug.Log("roads: " + ground[0]);
+		Debug.Log("roads: " + ground[1]);
 	
 	}
 	
