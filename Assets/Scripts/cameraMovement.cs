@@ -4,11 +4,16 @@ using System.Collections;
 public class cameraMovement : MonoBehaviour {
 
 
-	public int movementsSpeed;
+	public int moveSpeed;
 	public int zoomSpeed;
+	public Vector3 moveTarget;
+	public float zoomSmoothAmount;
+	public float moveSmoothAmount;
 	// Use this for initialization
+
 	void Start () {
-	
+
+		moveTarget = transform.position;
 	}
 	
 	// Update is called once per frame
@@ -16,36 +21,33 @@ public class cameraMovement : MonoBehaviour {
 
 		if (Input.GetKey (KeyCode.W)) 
 		{
-			Debug.Log("move forward");
-			transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + movementsSpeed * Time.deltaTime);
+			moveTarget += Vector3.forward * moveSpeed;
 		}
 		if (Input.GetKey (KeyCode.S)) 
 		{
-			Debug.Log("move backwards");
-			transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - movementsSpeed * Time.deltaTime);
+			moveTarget += Vector3.back * moveSpeed;
 		}
 		if (Input.GetKey (KeyCode.A)) 
 		{
-			Debug.Log("move left");
-			transform.position = new Vector3(transform.position.x - movementsSpeed * Time.deltaTime, transform.position.y, transform.position.z);
+			moveTarget += Vector3.left * moveSpeed;
 		}
 		if (Input.GetKey (KeyCode.D)) 
 		{
-			Debug.Log("move right");
-			transform.position = new Vector3(transform.position.x + movementsSpeed * Time.deltaTime, transform.position.y, transform.position.z);
+			moveTarget += Vector3.right * moveSpeed;
 		}
 
 		if (Input.GetAxis ("Mouse ScrollWheel") < 0) 
 		{
-			Debug.Log("zoom out");
-			transform.Translate(-((Vector3.forward * zoomSpeed) * Time.deltaTime));
+			moveTarget += Vector3.up * zoomSpeed;
 		}
-
 		if (Input.GetAxis ("Mouse ScrollWheel") > 0) 
 		{
-			Debug.Log("zoom in");
-			transform.Translate((Vector3.forward * zoomSpeed) * Time.deltaTime);
+			moveTarget += Vector3.down * zoomSpeed;
 		}
+
+		transform.position = new Vector3(transform.position.x, Vector3.Lerp(transform.position, moveTarget, zoomSmoothAmount * Time.deltaTime).y, transform.position.z);
+
+		transform.position = new Vector3(Vector3.Lerp(transform.position, moveTarget, moveSmoothAmount * Time.deltaTime).x, transform.position.y, Vector3.Lerp(transform.position, moveTarget, moveSmoothAmount * Time.deltaTime).z);
 	
 	}
 }
