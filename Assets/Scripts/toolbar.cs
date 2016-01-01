@@ -26,10 +26,12 @@ public class toolbar : MonoBehaviour {
 			}
 			else
 			{
-				buttonTransform.anchoredPosition = new Vector2 (buttonTransform.sizeDelta.x + (buttonXOffset * 2), buttonYOffset);
+				buttonTransform.anchoredPosition = new Vector2 ((buttonTransform.sizeDelta.x + (buttonXOffset * 2)) * (i), buttonYOffset);
 			}
 			GameObject buttonText = button.transform.GetChild(0).gameObject;
 			buttonText.GetComponent<Text>().text = ground[i].ToString();
+
+			button.GetComponent<toobarButton>().tile = (GameObject)ground[i];
 
 
 		}

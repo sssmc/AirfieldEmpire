@@ -4,11 +4,13 @@ using System.Collections;
 public class toobarButton : MonoBehaviour {
 
 	public GameObject tile;
+	public GameObject placeTimeObject;
 
 	// Use this for initialization
 	void Start () {
-
 	
+		placeTimeObject = GameObject.Find ("Scripts");
+		
 	}
 	
 	// Update is called once per frame
@@ -19,5 +21,7 @@ public class toobarButton : MonoBehaviour {
 	public void OnClick()
 	{
 		Debug.Log ("Click");
+		placeTimeObject.GetComponent<placeTile> ().currentPlace = tile;
+
 	}
 }

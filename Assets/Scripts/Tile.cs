@@ -20,5 +20,6 @@ public class Tile : MonoBehaviour {
 	void OnMouseDown()
 	{
 		placeTileObject.GetComponent<placeTile> ().ReplaceTile (tilePosition);
+		Debug.Log ("Tile click at: " + tilePosition);
 	}
 }
