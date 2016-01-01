@@ -9,6 +9,8 @@ public class placeTile : MonoBehaviour {
 	public Vector2 worldSize;
 	Tile[,] tiles;
 
+	public GameObject startingTile;
+
 	public Tile currentPlace;
 
 	void Start () {
@@ -16,6 +18,7 @@ public class placeTile : MonoBehaviour {
 		tiles = new Tile[(int)worldSize.x,(int)worldSize.y];
 
 		currentPlace = new Tile ();
+		currentPlace.prefab = startingTile;
 
 		for (int i = 0; i < (int)worldSize.x; i++) 
 		{
