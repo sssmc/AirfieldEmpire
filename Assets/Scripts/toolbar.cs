@@ -29,10 +29,16 @@ public class toolbar : MonoBehaviour {
 				buttonTransform.anchoredPosition = new Vector2 ((buttonTransform.sizeDelta.x + (buttonXOffset * 2)) * (i), buttonYOffset);
 			}
 			GameObject buttonText = button.transform.GetChild(0).gameObject;
-			buttonText.GetComponent<Text>().text = ground[i].ToString();
+			GameObject buttonIcon = button.transform.GetChild(1).gameObject;
+			toobarButton toolbarButtonScript = button.GetComponent<toobarButton>();
 
-			button.GetComponent<toobarButton>().tile = new Tile();
-			button.GetComponent<toobarButton>().tile.prefab = (GameObject)ground[i];
+			toolbarButtonScript.tile = new Tile();
+			toolbarButtonScript.tile.prefab = (GameObject)ground[i];
+			toolbarButtonScript.tile.name = toolbarButtonScript.tile.prefab.GetComponent<tileScript>().name;
+
+			buttonText.GetComponent<Text>().text = toolbarButtonScript.tile.name;
+
+			buttonIcon.GetComponent<Image>().sprite = toolbarButtonScript.tile.prefab.GetComponent<tileScript>().icon;
 
 
 		}

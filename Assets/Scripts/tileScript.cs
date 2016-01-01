@@ -5,6 +5,8 @@ public class tileScript: MonoBehaviour {
 
 	public Vector2 tilePosition = new Vector2();
 	private GameObject placeTileObject;
+	public string name;
+	public Sprite icon;
 	// Use this for initialization
 	void Start () {
 
