@@ -31,7 +31,8 @@ public class toolbar : MonoBehaviour {
 			GameObject buttonText = button.transform.GetChild(0).gameObject;
 			buttonText.GetComponent<Text>().text = ground[i].ToString();
 
-			button.GetComponent<toobarButton>().tile = (GameObject)ground[i];
+			button.GetComponent<toobarButton>().tile = new Tile();
+			button.GetComponent<toobarButton>().tile.prefab = (GameObject)ground[i];
 
 
 		}

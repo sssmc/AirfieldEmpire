@@ -3,7 +3,7 @@ using System.Collections;
 
 public class toobarButton : MonoBehaviour {
 
-	public GameObject tile;
+	public Tile tile;
 	public GameObject placeTimeObject;
 
 	// Use this for initialization
@@ -21,7 +21,7 @@ public class toobarButton : MonoBehaviour {
 	public void OnClick()
 	{
 		Debug.Log ("Click");
-		placeTimeObject.GetComponent<placeTile> ().currentPlace = tile;
+		placeTimeObject.GetComponent<placeTile> ().currentPlace.prefab = tile.prefab;
 
 	}
 }
