@@ -20,6 +20,8 @@ public class placeTile : MonoBehaviour {
 		currentPlace = new Tile ();
 		currentPlace.prefab = startingTile;
 
+		this.GetComponent<objectPreview> ().changePreviewObject (currentPlace.prefab);
+
 		for (int i = 0; i < (int)worldSize.x; i++) 
 		{
 			for(int r = 0; r < (int)worldSize.y; r++)

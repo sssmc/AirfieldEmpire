@@ -4,12 +4,12 @@ using System.Collections;
 public class toobarButton : MonoBehaviour {
 
 	public Tile tile;
-	public GameObject placeTimeObject;
+	public GameObject scriptObject;
 
 	// Use this for initialization
 	void Start () {
 	
-		placeTimeObject = GameObject.Find ("Scripts");
+		scriptObject = GameObject.Find ("Scripts");
 		
 	}
 	
@@ -21,7 +21,8 @@ public class toobarButton : MonoBehaviour {
 	public void OnClick()
 	{
 		Debug.Log ("Click");
-		placeTimeObject.GetComponent<placeTile> ().currentPlace.prefab = tile.prefab;
+		scriptObject.GetComponent<placeTile> ().currentPlace.prefab = tile.prefab;
+		scriptObject.GetComponent<objectPreview> ().changePreviewObject (tile.prefab);
 
 	}
 }
