@@ -9,11 +9,15 @@ public class placeTile : MonoBehaviour {
 	public Vector2 worldSize;
 	Tile[,] tiles;
 
+	public int currentRotation;
+
 	public GameObject startingTile;
 
 	public Tile currentPlace;
 
 	void Start () {
+
+		currentRotation = 0;
 
 		tiles = new Tile[(int)worldSize.x,(int)worldSize.y];
 
@@ -39,14 +43,35 @@ public class placeTile : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
+		if (Input.GetKeyDown (KeyCode.R)) 
+		{
+			if(currentRotation != 3)
+			{
+				currentRotation ++;
+			}
+			else
+			{
+				currentRotation = 0;
+			}
+
+			this.GetComponent<objectPreview>().changePreviewObjectRotation(currentRotation);
+
+		}
+
+
 	
 	}
 
 	public void ReplaceTile(Vector2 tileLocation)
 	{
-		Destroy(tiles[(int)tileLocation.x, (int)tileLocation.y].prefab);
-		tiles[(int)tileLocation.x, (int)tileLocation.y].prefab = (GameObject)Instantiate(currentPlace.prefab, new Vector3(offset * (int)tileLocation.y, 0.0f, offset * (int)tileLocation.x), this.transform.rotation);
-		tiles[(int)tileLocation.x,(int)tileLocation.y].prefab.GetComponent<tileScript>().tilePosition = new Vector2((int)tileLocation.x,(int)tileLocation.y);
+		Tile currentTile = tiles[(int)tileLocation.x, (int)tileLocation.y];
+		Destroy(currentTile.prefab);
+		currentTile.prefab = (GameObject)Instantiate(currentPlace.prefab, new Vector3(offset * (int)tileLocation.y, 0.0f, offset * (int)tileLocation.x), this.transform.rotation);
+
+		currentTile.prefab.transform.Rotate (Vector3.up * (90 * currentRotation));
+
+		currentTile.prefab.GetComponent<tileScript>().tilePosition = new Vector2((int)tileLocation.x,(int)tileLocation.y);
 
 	}
 }
