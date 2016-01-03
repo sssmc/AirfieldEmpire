@@ -26,7 +26,6 @@ public class cameraMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		Debug.Log (mouseRayDistance / zoomSpeedDistanceDivider);
 
 		if (Input.GetKey (KeyCode.W)) 
 		{

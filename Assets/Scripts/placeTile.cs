@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class placeTile : MonoBehaviour {
 
@@ -7,6 +8,7 @@ public class placeTile : MonoBehaviour {
 	public GameObject grass;
 	public int offset;
 	public Vector2 worldSize;
+
 	Tile[,] tiles;
 
 	public int currentRotation;
@@ -15,9 +17,15 @@ public class placeTile : MonoBehaviour {
 
 	public Tile currentPlace;
 
+	public int brushSize;
+	public int maxBrushSize;
+	public GameObject brushSizeText;
+
 	void Start () {
 
 		currentRotation = 0;
+
+		brushSize = 0;
 
 		tiles = new Tile[(int)worldSize.x,(int)worldSize.y];
 
@@ -44,6 +52,7 @@ public class placeTile : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+
 		if (Input.GetKeyDown (KeyCode.R)) 
 		{
 			if(currentRotation != 3)
@@ -58,6 +67,22 @@ public class placeTile : MonoBehaviour {
 			this.GetComponent<objectPreview>().changePreviewObjectRotation(currentRotation);
 
 		}
+		if (Input.GetKeyDown (KeyCode.Period)) 
+		{
+			if(brushSize < maxBrushSize)
+			{
+				brushSize ++;
+				brushSizeText.GetComponent<Text>().text = ("Brush Size: " + brushSize);
+			}
+		}
+		if (Input.GetKeyDown (KeyCode.Comma)) 
+		{
+			if(brushSize > 0)
+			{
+				brushSize --;
+				brushSizeText.GetComponent<Text>().text = ("Brush Size: " + brushSize);
+			}
+		}
 
 
 	
@@ -65,13 +90,50 @@ public class placeTile : MonoBehaviour {
 
 	public void ReplaceTile(Vector2 tileLocation)
 	{
-		Tile currentTile = tiles[(int)tileLocation.x, (int)tileLocation.y];
-		Destroy(currentTile.prefab);
-		currentTile.prefab = (GameObject)Instantiate(currentPlace.prefab, new Vector3(offset * (int)tileLocation.y, 0.0f, offset * (int)tileLocation.x), this.transform.rotation);
+		if (brushSize == 0) {
+			Tile currentTile = tiles [(int)tileLocation.x, (int)tileLocation.y];
+			Destroy (currentTile.prefab);
+			currentTile.prefab = (GameObject)Instantiate (currentPlace.prefab, new Vector3 (offset * (int)tileLocation.y, 0.0f, offset * (int)tileLocation.x), this.transform.rotation);
 
-		currentTile.prefab.transform.Rotate (Vector3.up * (90 * currentRotation));
+			currentTile.prefab.transform.Rotate (Vector3.up * (90 * currentRotation));
 
-		currentTile.prefab.GetComponent<tileScript>().tilePosition = new Vector2((int)tileLocation.x,(int)tileLocation.y);
+			currentTile.prefab.GetComponent<tileScript> ().tilePosition = new Vector2 ((int)tileLocation.x, (int)tileLocation.y);
+		} 
+		else 
+		{
+			Vector2 centerLocation = new Vector2(tileLocation.x * offset, tileLocation.y * offset);
+			Vector2 bottomLeftCornerTile = new Vector2(tileLocation.x - brushSize, tileLocation.y - brushSize);
+
+			for(int r = 0; r < (brushSize * 2) + 1; r++)
+			{
+				for(int c = 0; c < (brushSize * 2) + 1; c++)
+				{
+					if(bottomLeftCornerTile.x + r >= 0 || bottomLeftCornerTile.y + c >= 0)
+					{
+						if(bottomLeftCornerTile.x + r >= 0 && bottomLeftCornerTile.y + c >= 0)
+						{
+							if(bottomLeftCornerTile.x + r < worldSize.x || bottomLeftCornerTile.y + c < worldSize.y)
+							{
+								if(bottomLeftCornerTile.x + r < worldSize.x && bottomLeftCornerTile.y + c < worldSize.y)
+								{
+									if(Vector3.Distance(new Vector3(centerLocation.x, 0.0f, centerLocation.y), new Vector3(offset * ((int)bottomLeftCornerTile.x + r), 0.0f, offset * ((int)bottomLeftCornerTile.y + c))) < offset * brushSize)
+									{
+										Destroy(tiles[(int)bottomLeftCornerTile.x + r, (int)bottomLeftCornerTile.y + c].prefab);
+										tiles[(int)bottomLeftCornerTile.x + r, (int)bottomLeftCornerTile.y + c].prefab = (GameObject)Instantiate (currentPlace.prefab, new Vector3 (offset * ((int)bottomLeftCornerTile.y + c), 0.0f, offset * ((int)bottomLeftCornerTile.x + r)), this.transform.rotation);
+
+										tiles[(int)bottomLeftCornerTile.x + r, (int)bottomLeftCornerTile.y + c].prefab.transform.Rotate (Vector3.up * (90 * currentRotation));
+										
+										tiles[(int)bottomLeftCornerTile.x + r, (int)bottomLeftCornerTile.y + c].prefab.GetComponent<tileScript> ().tilePosition = new Vector2 ((int)bottomLeftCornerTile.x + r, (int)bottomLeftCornerTile.y + c);
+									}
+								}
+							}
+						}
+					}
+
+				}
+			}
+
+		}
 
 	}
 }
