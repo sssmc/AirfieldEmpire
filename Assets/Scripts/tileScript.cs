@@ -24,7 +24,6 @@ public class tileScript: MonoBehaviour {
 		if (Input.GetMouseButton (0)) 
 		{
 			placeTileObject.GetComponent<placeTile> ().ReplaceTile (tilePosition);
-			Debug.Log ("Tile click at: " + tilePosition);
 		}
 	}
 }

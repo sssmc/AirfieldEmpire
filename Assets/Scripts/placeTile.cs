@@ -20,6 +20,7 @@ public class placeTile : MonoBehaviour {
 	public int brushSize;
 	public int maxBrushSize;
 	public GameObject brushSizeText;
+	public GameObject placeParticle;
 
 	void Start () {
 
@@ -72,7 +73,7 @@ public class placeTile : MonoBehaviour {
 			if(brushSize < maxBrushSize)
 			{
 				brushSize ++;
-				brushSizeText.GetComponent<Text>().text = ("Brush Size: " + brushSize);
+				brushSizeText.GetComponent<Text>().text = ("Brush Size: " + (brushSize * 2));
 			}
 		}
 		if (Input.GetKeyDown (KeyCode.Comma)) 
@@ -80,7 +81,7 @@ public class placeTile : MonoBehaviour {
 			if(brushSize > 0)
 			{
 				brushSize --;
-				brushSizeText.GetComponent<Text>().text = ("Brush Size: " + brushSize);
+				brushSizeText.GetComponent<Text>().text = ("Brush Size: " + (brushSize * 2));
 			}
 		}
 
@@ -94,6 +95,8 @@ public class placeTile : MonoBehaviour {
 			Tile currentTile = tiles [(int)tileLocation.x, (int)tileLocation.y];
 			Destroy (currentTile.prefab);
 			currentTile.prefab = (GameObject)Instantiate (currentPlace.prefab, new Vector3 (offset * (int)tileLocation.y, 0.0f, offset * (int)tileLocation.x), this.transform.rotation);
+
+			Destroy(Instantiate(placeParticle, new Vector3 (offset * (int)tileLocation.y, -1.0f, offset * (int)tileLocation.x), this.transform.rotation), 2.2f);
 
 			currentTile.prefab.transform.Rotate (Vector3.up * (90 * currentRotation));
 
@@ -120,6 +123,8 @@ public class placeTile : MonoBehaviour {
 									{
 										Destroy(tiles[(int)bottomLeftCornerTile.x + r, (int)bottomLeftCornerTile.y + c].prefab);
 										tiles[(int)bottomLeftCornerTile.x + r, (int)bottomLeftCornerTile.y + c].prefab = (GameObject)Instantiate (currentPlace.prefab, new Vector3 (offset * ((int)bottomLeftCornerTile.y + c), 0.0f, offset * ((int)bottomLeftCornerTile.x + r)), this.transform.rotation);
+
+										Destroy((GameObject)Instantiate (placeParticle, new Vector3 (offset * ((int)bottomLeftCornerTile.y + c), -1.0f, offset * ((int)bottomLeftCornerTile.x + r)), this.transform.rotation), 2.2f);
 
 										tiles[(int)bottomLeftCornerTile.x + r, (int)bottomLeftCornerTile.y + c].prefab.transform.Rotate (Vector3.up * (90 * currentRotation));
 										
