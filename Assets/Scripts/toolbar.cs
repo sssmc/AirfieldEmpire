@@ -9,6 +9,7 @@ public class toolbar : MonoBehaviour {
 
 	public GameObject tabGround;
 	public GameObject tabRoads;
+	public GameObject tabTowers;
 	public int buttonXOffset;
 	public int buttonYOffset;
 
@@ -22,6 +23,7 @@ public class toolbar : MonoBehaviour {
 
 		addButtons (tabGround, "tile_ground");
 		addButtons (tabRoads, "tile_roads");
+		addButtons (tabTowers, "tile_towers");
 
 		currentTab = startingTab;
 		currentTab.SetActive (true);
