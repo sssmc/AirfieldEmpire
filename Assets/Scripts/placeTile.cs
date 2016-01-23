@@ -14,6 +14,7 @@ public class placeTile : MonoBehaviour {
 	public int currentRotation;
 
 	public GameObject startingTile;
+	public GameObject emptyTile;
 
 	public Tile currentPlace;
 
@@ -40,7 +41,7 @@ public class placeTile : MonoBehaviour {
 			for(int r = 0; r < (int)worldSize.y; r++)
 			{
 				tiles[i,r] = new Tile();
-				tiles[i,r].prefab = (GameObject)Instantiate(grass, new Vector3(offset * r, 0.0f, offset * i), this.transform.rotation);
+				tiles[i,r].prefab = (GameObject)Instantiate(emptyTile, new Vector3(offset * r, 0.0f, offset * i), this.transform.rotation);
 
 				tiles[i,r].prefab.GetComponent<tileScript>().tilePosition = new Vector2(i,r);
 				//tiles[i,r].transform.Rotate(-90,0,0);
@@ -87,6 +88,11 @@ public class placeTile : MonoBehaviour {
 
 
 	
+	}
+
+	public Tile getTile(Vector2 tileLocation)
+	{
+		return tiles [(int)tileLocation.x, (int)tileLocation.y];
 	}
 
 	public void ReplaceTile(Vector2 tileLocation)

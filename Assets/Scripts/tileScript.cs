@@ -10,11 +10,14 @@ public class tileScript: MonoBehaviour {
 	public bool isHighlighted;
 	private Color startColor;
 	public bool isMouseOver;
+	public bool isEmptyTile;
 	// Use this for initialization
 	void Start () {
 
 		placeTileObject = GameObject.Find ("Scripts");
-		startColor = GetComponent<Renderer> ().material.color;
+		if (isEmptyTile == false) {
+			startColor = GetComponent<Renderer> ().material.color;
+		}
 		isHighlighted = false;
 		isMouseOver = false;
 	
@@ -25,7 +28,10 @@ public class tileScript: MonoBehaviour {
 		if (isHighlighted == true && isMouseOver == false) 
 		{
 			isHighlighted = false;
-			GetComponent<Renderer> ().material.color = startColor;
+			if(isEmptyTile == false)
+			{
+				GetComponent<Renderer> ().material.color = startColor;
+			}
 		}
 	
 	}
@@ -40,7 +46,10 @@ public class tileScript: MonoBehaviour {
 		if (isHighlighted == false) 
 		{
 			isHighlighted = true;
-			GetComponent<Renderer> ().material.SetColor("_Color", new Color(255,0,0,1.0f));
+			if(isEmptyTile == false)
+			{
+				GetComponent<Renderer> ().material.SetColor("_Color", new Color(255,0,0,1.0f));
+			}
 		}
 		if (Input.GetMouseButton (0)) 
 		{
